@@ -22,9 +22,6 @@ export const ImageGallery = ({
   const pageRef = useRef(page);
 
   
-  
-  
-  
   useEffect(() => {
     if (page !== 1) {
       return;
@@ -96,7 +93,7 @@ export const ImageGallery = ({
     if (status === 'resolved') {
       return (
         <List>
-          {this.state.imgArray.map(el => {
+          {imgArray.map(el => {
             return (
               <ImageGalleryItem
                 key={el.id}
@@ -117,6 +114,5 @@ export const ImageGallery = ({
 ImageGallery.propTypes = {
   searchText: propTypes.string.isRequired,
   page: propTypes.number.isRequired,
-  perPage: propTypes.number.isRequired,
   statusState: propTypes.func.isRequired,
 };
