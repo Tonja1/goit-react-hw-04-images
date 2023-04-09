@@ -1,44 +1,48 @@
-import { Component } from "react";
 import propTypes from 'prop-types';
 import { Backdrop, Content } from "./ModalStyled";
 import { createPortal } from "react-dom";
+import { useEffect } from "react";
 
 const ModalRoot = document.querySelector('#modal-root');
-export class Modal extends Component {
-    componentDidMount() {
-        window.addEventListener('keydown', this.handleKeyDown);
-    }
 
-    componentWillUnmount() {
-        window.removeEventListener('keydown', this.handleKeyDown);
-    }
+export const Modal = ({
+    currentImageUrl,
+    currentImageDescription,
+    toggleModal,
+}) => {
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
 
-    handleKeyDown = e => {
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const handleKeyDown = e => {
         if (e.code === 'Escape') {
-            this.props.toggleModal();
+            toggleModal();
         }
     };
 
-    handleClickBackdrop = e => {
+    const handleClickBackdrop = e => {
         if (e.target === e.currentTarget) {
-            this.props.toggleModal();
+            toggleModal();
         }
     };
 
-    render() {
-        return createPortal(
-            <Backdrop onClick={this.handleClickBackdrop}>
-                <Content>
-                    <img
-                        src={this.props.currentImageUrl}
-                        alt={this.props.currentImageDescription}
-                    />
-                </Content>
-            </Backdrop>,
-            ModalRoot
-        );
-    }
-}
+    return createPortal(
+        <Backdrop onClick={handleClickBackdrop}>
+            <Content>
+                <img src={currentImageUrl} alt={currentImageDescription} />
+            </Content>
+        </Backdrop>,
+        ModalRoot
+    );
+};
+
 Modal.propTypes = {
     toggleModal: propTypes.func.isRequired,
+    currentImageUrl: propTypes.string.isRequired,
+    currentImageDescription: propTypes.string.isRequired,
 };

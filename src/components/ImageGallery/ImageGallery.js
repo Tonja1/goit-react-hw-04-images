@@ -1,65 +1,87 @@
 import propTypes from 'prop-types';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { List } from './ImageGalleryStyled';
-import { Component } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getImg } from 'Services/GetImg';
 import { Loader } from 'components/Loader/Loader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export class ImageGallery extends Component {
-    state = {
-        imgArray: [],
-        error: 'message',
-        status: '',
-    };
+export const ImageGallery = ({
+  page,
+  openModal,
+  searchText,
+  statusState,
+  setImgArray,
+  imgArray,
+}) => {
+  const [error, setError] = useState('message');
+  const [status, setStatus] = useState('');
 
-    componentDidUpdate(prevProps) {
-        const prevName = prevProps.searchText;
-        const nextName = this.props.searchText;
+  const searchRef = useRef(searchText);
+  const pageRef = useRef(page);
 
-        if (prevName !== nextName) {
-            this.setState({ status: 'pending' });
-
-            getImg(this.props.searchText, this.props.page, this.props.perPage)
-                .then(response => response.json())
-                .then(obj => {
-                    this.props.statusState(obj.hits);
-                    this.setState({ imgArray: obj.hits, status: 'resolved' });
-                    if (obj.hits.length >= 1 && obj.hits.length < 12) {
-                        toast.warn('there are no more images here', {
-                            theme: 'dark',
-                        });
-                    }
-                    if (obj.hits.length === 0) {
-                        toast.error('please enter a valid term', {
-                            theme: 'dark'
-                        });
-                    }
-                })
-                .catch(error => this.setState({ error: error, status: 'rejected' }));
+  
+  
+  
+  
+  useEffect(() => {
+    if (page !== 1) {
+      return;
+    }
+    getImg(searchText, page)
+      .then(response => response.json())
+      .then(obj => {
+        statusState(obj.hits);
+        setImgArray(prevArray => [...prevArray, ...obj.hits]);
+        setStatus('resolved');
+        if (obj.hits.length >= 1 && obj.hits.length < 12) {
+          toast.warn('there are no more images here', {
+            theme: 'dark',
+          });
         }
-        if (prevProps.page !== this.props.page && this.props.page !== 1) {
-            getImg(this.props.searchText, this.props.page, this.props.perPage)
-                .then(response => response.json())
-                .then(obj => {
-                    if (obj.hits < 12) {
-                        toast.warn('there are no more images here', {
-                            theme: 'colored',
-                        });
-                    }
-                    this.props.statusState(obj.hits);
-                    this.setState({
-                        imgArray: [...this.state.imgArray, ...obj.hits],
-                        status: 'resolved',
-                    });
-                });
-        }
+      })
+      .catch(error => {
+        setError(error);
+        setStatus('rejected');
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+  
+  useEffect(() => {
+    if (
+      searchRef.current === searchText &&
+      pageRef.current === page &&
+      searchText === ''
+    ) {
+      return;
     }
 
-    render() {
-    const { status, error } = this.state;
-
+    setStatus('pending');
+    getImg(searchText, page)
+      .then(response => response.json())
+      .then(obj => {
+        statusState(obj.hits);
+        setImgArray(prevArray => [...prevArray, ...obj.hits]);
+        setStatus('resolved');
+        if (obj.hits.length >= 1 && obj.hits.length < 12) {
+          toast.warn('there are no more images here', {
+            theme: 'dark',
+          });
+        }
+        if (obj.hits.length === 0) {
+          toast.error('please enter a valid term', {
+            theme: 'dark',
+          });
+        }
+      })
+      .catch(error => {
+        setError(error);
+        setStatus('rejected');
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchText]);
+   
     if (status === 'pending') {
       return <Loader />;
     }
@@ -82,7 +104,7 @@ export class ImageGallery extends Component {
                 src={el.webformatURL}
                 alt={el.tags}
                 largeImageURL={el.largeImageURL}
-                openModal={this.props.openModal}
+                openModal={openModal}
               />
             );
           })}
@@ -90,7 +112,7 @@ export class ImageGallery extends Component {
       );
     }
   }
-}
+
 
 ImageGallery.propTypes = {
   searchText: propTypes.string.isRequired,
