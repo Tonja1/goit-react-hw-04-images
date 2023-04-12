@@ -100,7 +100,7 @@ export const ImageGallery = ({
                 id={el.id}
                 src={el.webformatURL}
                 alt={el.tags}
-                largeImageURL={el.largeImageURL}
+                // largeImageURL={el.largeImageURL}
                 openModal={openModal}
               />
             );

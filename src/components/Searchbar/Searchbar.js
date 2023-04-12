@@ -17,15 +17,15 @@ export const SearchBarForm = ({ onSubmit }) => {
     setSearch(value);
   };
 
-  const handleSubmit = event => {
+  const hendleSubmit = event => {
     event.preventDefault();
-    onSubmit({ search });
+    onSubmit({ event });
     setSearch('');
   };
  
   return (
     <SearchBar>
-      <SearchForm onSubmit={handleSubmit}>
+      <SearchForm onSubmit={hendleSubmit}>
         <SearchFormButton type="submit">
           <SearchFormButtonLabel>Search</SearchFormButtonLabel>
           <IconSearch width="24px" height="24px" />
