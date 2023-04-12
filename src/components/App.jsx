@@ -31,7 +31,7 @@ export const App = () => {
     }
   };
 
-  const onSubmit = event => {
+  const hendleSubmit = event => {
     event.preventDefault();
     setBtnVisible(false);
     setPage(1);
@@ -81,7 +81,7 @@ export const App = () => {
           toggleModal={toggleModal}
         />
       )}
-      <SearchBarForm onSubmit={onSubmit} />
+      <SearchBarForm onSubmit={hendleSubmit} />
       <ImageGallery
         page={page}
         openModal={openModal}
