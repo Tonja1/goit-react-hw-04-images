@@ -19,7 +19,7 @@ export const SearchBarForm = ({ onSubmit }) => {
 
   const hendleSubmit = event => {
     event.preventDefault();
-    onSubmit({ event });
+    onSubmit( event );
     setSearch('');
   };
  
