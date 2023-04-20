@@ -10,6 +10,7 @@ import {
 import propTypes from 'prop-types';
 
 export const SearchBarForm = ({ onSubmit }) => {
+  // eslint-disable-next-line
       const [search, setSearch] = useState('');
 
   const handleChange = ({ target }) => {
@@ -32,7 +33,7 @@ export const SearchBarForm = ({ onSubmit }) => {
         </SearchFormButton>
  
         <SearchFormInput
-          name={search}
+          name="search"
           onChange={handleChange}
           type="text"
           autocomplete="off"
