@@ -21,9 +21,8 @@ export const ImageGallery = ({
   const searchRef = useRef(searchText);
   const pageRef = useRef(page);
 
-  
-  useEffect(() => {
-    if (page !== 1) {
+   useEffect(() => {
+    if (page === 1) {
       return;
     }
     getImg(searchText, page)
@@ -44,7 +43,7 @@ export const ImageGallery = ({
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-  
+
   useEffect(() => {
     if (
       searchRef.current === searchText &&
@@ -78,38 +77,37 @@ export const ImageGallery = ({
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchText]);
-   
-    if (status === 'pending') {
-      return <Loader />;
-    }
 
-    if (status === 'rejected') {
-      toast.error('error', {
-        theme: 'colored',
-      });
-      return { error };
-    }
-
-    if (status === 'resolved') {
-      return (
-        <List>
-          {imgArray.map(el => {
-            return (
-              <ImageGalleryItem
-                key={el.id}
-                id={el.id}
-                src={el.webformatURL}
-                alt={el.tags}
-                largeImageURL={el.largeImageURL}
-                openModal={openModal}
-              />
-            );
-          })}
-        </List>
-      );
-    }
+  if (status === 'pending') {
+    return <Loader />;
   }
 
+  if (status === 'rejected') {
+    toast.error('error', {
+      theme: 'colored',
+    });
+    return { error };
+  }
+
+  if (status === 'resolved') {
+    return (
+      <List>
+        {imgArray.map(el => {
+          return (
+            <ImageGalleryItem
+              key={el.id}
+              id={el.id}
+              src={el.webformatURL}
+              alt={el.tags}
+              largeImageURL={el.largeImageURL}
+              openModal={openModal}
+            />
+          );
+        })}
+      </List>
+    );
+  }
+};
 
 ImageGallery.propTypes = {
   searchText: propTypes.string.isRequired,

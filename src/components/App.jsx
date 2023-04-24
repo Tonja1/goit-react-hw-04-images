@@ -18,22 +18,22 @@ export const App = () => {
   const toggleModal = () => setShowModal(prev => !prev);
     
   const onLoadImg = () => {
-    setBtnVisible(false);
+    setBtnVisible(true);
     setPage(prevPage => prevPage + 1);
   };
 
-  const statusState = e => {
-    if (e.length === 12) {
+  const statusState = event => {
+    if (event.length === 12) {
       return setBtnVisible(true);
     }
-    if (e.length < 12) {
-      return setBtnVisible(false);
+    if (event.length < 12) {
+      return setBtnVisible(true);
     }
   };
 
-  const hendleSubmit = event => {
+  const onSubmit = event => {
     event.preventDefault();
-    setBtnVisible(false);
+    setBtnVisible(true);
     setPage(1);
     setShowModal(false);
     setImgArray([]);
@@ -81,7 +81,7 @@ export const App = () => {
           toggleModal={toggleModal}
         />
       )}
-      <SearchBarForm onSubmit={hendleSubmit} />
+      <SearchBarForm onSubmit={onSubmit} />
       <ImageGallery
         page={page}
         openModal={openModal}
