@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { SearchBarForm } from "./Searchbar/Searchbar";
-import { ImageGallery } from "./ImageGallery/ImageGallery";
-import { LoadMore } from "./Button/Button";
-import { ToastContainer, toast } from "react-toastify";
+import { useEffect, useState } from 'react';
+import { SearchBarForm } from '../components/Searchbar/Searchbar';
+import { ImageGallery } from '../components/ImageGallery/ImageGallery';
+import { LoadMore } from 'components/Button/Button';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Modal } from "./Modal/Modal";
+import { Modal } from 'components/Modal/Modal';
 
 export const App = () => {
   const [searchText, setSearchText] = useState('');
@@ -15,25 +15,25 @@ export const App = () => {
   const [currentImageDescription, setCurrentImageDescription] = useState(null);
   const [imgArray, setImgArray] = useState([]);
 
-  const toggleModal = () => setShowModal(prev => !prev);
-    
+  const toogleModal = () => setShowModal(prev => !prev);
+
   const onLoadImg = () => {
-    setBtnVisible(true);
+    setBtnVisible(false);
     setPage(prevPage => prevPage + 1);
   };
 
-  const statusState = event => {
-    if (event.length === 12) {
-      return setBtnVisible(true);
+  const statusState = e => {
+    if (e.length === 12) {
+      return setBtnVisible(false);
     }
-    if (event.length < 12) {
+    if (e.length !== 12) {
       return setBtnVisible(true);
     }
   };
 
   const onSubmit = event => {
     event.preventDefault();
-    setBtnVisible(true);
+    setBtnVisible(false);
     setPage(1);
     setShowModal(false);
     setImgArray([]);
@@ -58,7 +58,7 @@ export const App = () => {
       form.reset();
     }
   };
-   
+
   const openModal = (img, alt) => {
     setShowModal(!showModal);
     setCurrentImageUrl(img);
@@ -71,14 +71,14 @@ export const App = () => {
       behavior: 'smooth',
     });
   });
-  
+
   return (
     <>
       {showModal && (
         <Modal
           currentImageDescription={currentImageDescription}
           currentImageUrl={currentImageUrl}
-          toggleModal={toggleModal}
+          toogleModal={toogleModal}
         />
       )}
       <SearchBarForm onSubmit={onSubmit} />

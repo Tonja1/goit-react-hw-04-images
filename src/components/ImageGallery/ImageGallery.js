@@ -21,7 +21,11 @@ export const ImageGallery = ({
   const searchRef = useRef(searchText);
   const pageRef = useRef(page);
 
-   useEffect(() => {
+  
+
+  
+
+  useEffect(() => {
     if (page === 1) {
       return;
     }
