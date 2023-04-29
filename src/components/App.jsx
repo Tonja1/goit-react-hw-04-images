@@ -22,13 +22,13 @@ export const App = () => {
     setPage(prevPage => prevPage + 1);
   };
 
-  const statusState = e => {
-    if (e.length > 12) {
+  const statusState = obj => {
+    if (Math.ceil(obj.totalHits/12 === obj.page)) {
       return setBtnVisible(false);
     }
-    if (e.length < 12) {
+    
       return setBtnVisible(true);
-    }
+    
   };
 
   const onSubmit = event => {
