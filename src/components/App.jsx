@@ -23,17 +23,17 @@ export const App = () => {
   };
 
   const statusState = e => {
-    if (e.length === 12) {
+    if (e.length > 12) {
       return setBtnVisible(false);
     }
-    if (e.length !== 12) {
+    if (e.length < 12) {
       return setBtnVisible(true);
     }
   };
 
   const onSubmit = event => {
     event.preventDefault();
-    setBtnVisible(false);
+    setBtnVisible(true);
     setPage(1);
     setShowModal(false);
     setImgArray([]);

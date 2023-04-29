@@ -20,16 +20,13 @@ export const ImageGallery = ({
 
   const searchRef = useRef(searchText);
   const pageRef = useRef(page);
-
   
 
-  
-
-  useEffect(() => {
+    useEffect(() => {
     if (page === 1) {
       return;
     }
-    getImg(searchText, page)
+    getImg(searchText, page, 12)
       .then(response => response.json())
       .then(obj => {
         statusState(obj.hits);
@@ -58,7 +55,7 @@ export const ImageGallery = ({
     }
 
     setStatus('pending');
-    getImg(searchText, page)
+    getImg(searchText, page, 12)
       .then(response => response.json())
       .then(obj => {
         statusState(obj.hits);
@@ -115,6 +112,6 @@ export const ImageGallery = ({
 
 ImageGallery.propTypes = {
   searchText: propTypes.string.isRequired,
-  page: propTypes.number.isRequired,
   statusState: propTypes.func.isRequired,
+  page: propTypes.number.isRequired,
 };
