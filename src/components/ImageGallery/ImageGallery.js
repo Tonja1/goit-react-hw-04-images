@@ -58,7 +58,7 @@ export const ImageGallery = ({
     getImg(searchText, page, 12)
       .then(response => response.json())
       .then(obj => {
-        statusState(obj.hits);
+        statusState(obj);
         setImgArray(prevArray => [...prevArray, ...obj.hits]);
         setStatus('resolved');
         if (obj.hits.length >= 1 && obj.hits.length < 12) {
